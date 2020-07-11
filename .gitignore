@@ -23,4 +23,4 @@
 /config/master.key
 
 # Ignore coverage report
-echo "coverage" >> .gitignore
+/coverage/
