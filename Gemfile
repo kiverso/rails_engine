@@ -49,3 +49,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rspec-rails'
 gem 'pry'
 gem 'simplecov'
+gem 'fast_jsonapi'
+gem 'rack-cors'
