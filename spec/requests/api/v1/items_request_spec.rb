@@ -37,7 +37,7 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(item['data']['attributes']['id']).to eq(@item1.id)
       expect(item['data']['attributes']['name']).to eq(@item1.name)
       expect(item['data']['attributes']['description']).to eq(@item1.description)
-      expect(item['data']['attributes']['unit_price']).to eq(@item1.unit_price)
+      expect(item['data']['attributes']['unit_price']).to eq(@item1.unit_price.to_f)
       expect(item['data']['attributes']['merchant_id']).to eq(@item1.merchant_id)
     end
   end
