@@ -77,6 +77,18 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(new_item.merchant_id).to eq(@merchant1.id)
     end
   end
+
+  describe 'delete /destroy' do
+    it 'returns deleted item' do
+      delete "/api/v1/items/#{@item3.id}"
+      expect(response).to have_http_status(:success)
+
+      deleted_item = item = JSON.parse(response.body)
+      expect(deleted_item['data']['attributes']['name']).to eq(@item3.name)
+
+      expect(Item.all).to eq ([@item1, @item2])
+    end
+  end
 end
 
 
