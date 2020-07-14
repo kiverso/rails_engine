@@ -78,6 +78,28 @@ RSpec.describe "Api::V1::Items", type: :request do
     end
   end
 
+    describe 'update' do
+    it 'returns the item on successful update' do
+      item_params = {name: "Great Coffee Product",
+                     description: "It tastes good",
+                     unit_price: 17.45
+                     }
+
+      patch "/api/v1/items/#{@item1.id}", params: item_params
+      expect(response).to have_http_status(:success)
+      
+      item = JSON.parse(response.body)
+      @item1.reload
+      
+      expect(item['data']['attributes']['name']).to eq('Great Coffee Product')
+      expect(item['data']['attributes']['description']).to eq('It tastes good')
+      expect(item['data']['attributes']['unit_price']).to eq(17.45)
+      expect(@item1.name).to eq("Great Coffee Product")
+      expect(@item1.description).to eq("It tastes good")
+      expect(@item1.unit_price).to eq(17.45)
+    end
+  end
+
   describe 'delete /destroy' do
     it 'returns deleted item' do
       delete "/api/v1/items/#{@item3.id}"
