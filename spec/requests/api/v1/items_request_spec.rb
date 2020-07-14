@@ -41,6 +41,42 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(item['data']['attributes']['merchant_id']).to eq(@item1.merchant_id)
     end
   end
+
+  describe 'POST /create' do
+    it 'returns http success' do
+      item_params = {name: "Great Coffee Product",
+                     description: "It tastes good",
+                     unit_price: 17.45,
+                     merchant_id: @merchant1.id
+                     }
+      post "/api/v1/items", params: item_params
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'returns the new item' do
+      item_params = {name: "Great Coffee Product",
+                     description: "It tastes good",
+                     unit_price: 17.45,
+                     merchant_id: @merchant1.id
+                     }
+      post "/api/v1/items", params: item_params
+      expect(response).to have_http_status(:success)
+
+      item = JSON.parse(response.body)
+      
+      expect(item['data']['attributes']['name']).to eq('Great Coffee Product')
+      expect(item['data']['attributes']['description']).to eq("It tastes good")
+      expect(item['data']['attributes']['unit_price']).to eq(17.45)
+      expect(item['data']['attributes']['merchant_id']).to eq(@merchant1.id)
+
+      new_item = Item.last
+
+      expect(new_item.name).to eq('Great Coffee Product')
+      expect(new_item.description).to eq("It tastes good")
+      expect(new_item.unit_price).to eq(17.45)
+      expect(new_item.merchant_id).to eq(@merchant1.id)
+    end
+  end
 end
 
 
