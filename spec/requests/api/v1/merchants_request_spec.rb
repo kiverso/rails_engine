@@ -55,6 +55,20 @@ RSpec.describe "Api::V1::Merchants", type: :request do
     end
   end
 
+  describe 'update' do
+    it 'returns the merchant on successful update' do
+      merchant_params = {name: 'New Merchant'}
+      patch "/api/v1/merchants/#{@merchant1.id}", params: merchant_params
+      expect(response).to have_http_status(:success)
+      
+      merchant = JSON.parse(response.body)
+      @merchant1.reload
+      
+      expect(merchant['data']['attributes']['name']).to eq('New Merchant')
+      expect(@merchant1.name).to eq("New Merchant")
+    end
+  end
+
   describe 'DELETE /destroy' do
     it 'returns deleted merchant' do
       expect(Item.all).to eq([@item])
