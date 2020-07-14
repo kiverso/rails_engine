@@ -18,6 +18,15 @@ class Api::V1::ItemsController < ApplicationController
     render json: ItemSerializer.new(Item.destroy(params[:id]))
   end
 
+  def update
+    item = Item.find(params[:id])
+    item.update(item_params)
+    if item.valid?
+      item.save
+      render json: ItemSerializer.new(item)
+    end
+  end
+
   private
   def item_params
     params.permit(:name, :description, :unit_price, :merchant_id)
