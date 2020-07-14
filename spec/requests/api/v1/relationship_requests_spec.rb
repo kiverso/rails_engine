@@ -29,4 +29,12 @@ RSpec.describe "Api::V1 relationships", type: :request do
     expect(items['data'].count).to eq(2)
     # expect(items['data']['attributes']['name']).to eq(@item1.name)
   end
+
+  it 'can_get an items merchant' do
+    get "/api/v1/items/#{@item1.id}/merchant"
+    expect(response).to have_http_status(:success)
+    merchant = JSON.parse(response.body)
+
+    expect(merchant['data']['attributes']['name']).to eq(@merchant1.name)
+  end
 end
