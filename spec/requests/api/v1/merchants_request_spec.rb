@@ -6,6 +6,10 @@ RSpec.describe "Api::V1::Merchants", type: :request do
     @merchant2 = create(:merchant)
     @merchant3 = create(:merchant)
     @merchant4 = create(:merchant)
+    @item = Item.create({name: 'Item',
+                         description: 'item',
+                         unit_price: 12.33,
+                         merchant_id: @merchant3.id})
   end
   describe "GET /index" do
     it "returns http success" do
@@ -53,6 +57,7 @@ RSpec.describe "Api::V1::Merchants", type: :request do
 
   describe 'DELETE /destroy' do
     it 'returns deleted merchant' do
+      expect(Item.all).to eq([@item])
       delete "/api/v1/merchants/#{@merchant3.id}"
       expect(response).to have_http_status(:success)
 
@@ -60,6 +65,7 @@ RSpec.describe "Api::V1::Merchants", type: :request do
       expect(deleted_merchant['data']['attributes']['name']).to eq(@merchant3.name)
 
       expect(Merchant.all).to eq ([@merchant1, @merchant2, @merchant4])
+      expect(Item.all).to be_empty
     end
   end
 end
