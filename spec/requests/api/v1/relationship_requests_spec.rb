@@ -27,7 +27,9 @@ RSpec.describe "Api::V1 relationships", type: :request do
     items = JSON.parse(response.body)
 
     expect(items['data'].count).to eq(2)
-    # expect(items['data']['attributes']['name']).to eq(@item1.name)
+    expect(items['data'].first['attributes']['name']).to eq(@item1.name)
+    expect(items['data'].first['attributes']['description']).to eq(@item1.description)
+    expect(items['data'].first['attributes']['unit_price']).to eq(@item1.unit_price.to_f)
   end
 
   it 'can_get an items merchant' do
