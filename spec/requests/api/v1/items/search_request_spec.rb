@@ -66,11 +66,30 @@ RSpec.describe "Api::V1::Items::Searches", type: :request do
     end
   end
 
-  # describe "GET /show" do
-  #   it "returns http success" do
-  #     get "/api/v1/items/search/show"
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-
+  describe "GET /show" do
+    it "returns only one item" do
+      get "/api/v1/items/find?name=coffee"
+      expect(response).to have_http_status(:success)
+      items = JSON.parse(response.body)
+      expect(items['data']['attributes']['name']).to eq('Coffee Maker')
+    end
+    it "can get an item based on created at" do
+      get "/api/v1/items/find?created_at=dec"
+      expect(response).to have_http_status(:success)
+      items = JSON.parse(response.body)
+      expect(items['data']['attributes']['name']).to eq('Coffee Maker')
+    end
+    it "can get an item based on updated at" do
+      get "/api/v1/items/find?updated_at=2019"
+      expect(response).to have_http_status(:success)
+      items = JSON.parse(response.body)
+      expect(items['data']['attributes']['name']).to eq('Coffee Maker')
+    end
+    it "can get an item based on multiple attributes" do
+      get "/api/v1/items/find?name=coffee&description=hot&unit_price=45"
+      expect(response).to have_http_status(:success)
+      items = JSON.parse(response.body)
+      expect(items['data']['attributes']['name']).to eq('Coffee cup')
+    end
+  end
 end
