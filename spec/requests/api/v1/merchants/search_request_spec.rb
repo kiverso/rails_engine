@@ -14,23 +14,6 @@ RSpec.describe "Api::V1::Merchants::Searches", type: :request do
     @merchant5 = Merchant.create({name: "Coolest Merchant",
                                   created_at: 'Sat, 21 Dec 2019 01:30:11 UTC +00:00',
                                   updated_at: 'Wed, 01 Jan 2020 01:30:11 UTC +00:00'})
-
-    @item1 = Item.create({name: 'Coffee Maker',
-                         description: 'Put hot water in it',
-                         unit_price: 12.33,
-                         merchant_id: @merchant1.id,
-                         created_at: 'Sat, 21 Dec 2019 01:30:11 UTC +00:00',
-                         updated_at: 'Sun, 22 Dec 2019 01:30:11 UTC +00:00'})
-
-    @item2 = Item.create({name: 'Coffee cup',
-                         description: 'keeps coffee hot, hands cold',
-                         unit_price: 12.45,
-                         merchant_id: @merchant2.id})
-
-    @item3 = Item.create({name: 'Coffee',
-                         description: 'Tastes good',
-                         unit_price: 13.33,
-                         merchant_id: @merchant3.id})
   end
 
   describe "GET /index" do
