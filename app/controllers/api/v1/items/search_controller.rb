@@ -18,6 +18,6 @@ class Api::V1::Items::SearchController < ApplicationController
     @items = @items.search_by_merchant_id(params[:merchant_id]) if params[:merchant_id]
     @items = @items.search_by_created_at(params[:created_at]) if params[:created_at]
     @items = @items.search_by_updated_at(params[:updated_at]) if params[:updated_at]
-    render json: ItemSerializer.new(@items).first
+    render json: ItemSerializer.new(@items.first)
   end
 end
