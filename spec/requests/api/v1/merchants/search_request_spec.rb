@@ -71,5 +71,33 @@ RSpec.describe "Api::V1::Merchants::Searches", type: :request do
     end
   end
 
+  describe "GET /show" do
+    it "can get merchants based on name" do
+      get "/api/v1/merchants/find?name=cool"
+      expect(response).to have_http_status(:success)
+      merchants = JSON.parse(response.body)
+      expect(merchants['data']['attributes']['name']).to eq('Cool Merchant')
+    end
 
+    it "can get merchants based on created_at" do
+      get "/api/v1/merchants/find?created_at=Dec"
+      expect(response).to have_http_status(:success)
+      merchants = JSON.parse(response.body)
+      expect(merchants['data']['attributes']['name']).to eq('Cool Merchant')
+    end
+
+    it "can get merchants based on updated_at" do
+      get "/api/v1/merchants/find?updated_at=Dec"
+      expect(response).to have_http_status(:success)
+      merchants = JSON.parse(response.body)
+      expect(merchants['data']['attributes']['name']).to eq('Cool Merchant')
+    end
+
+    it "can get merchants based on multiple attributes" do
+      get "/api/v1/merchants/find?name=cool&created_at=dec"
+      expect(response).to have_http_status(:success)
+      merchants = JSON.parse(response.body)
+      expect(merchants['data']['attributes']['name']).to eq('Cool Merchant')
+    end
+  end
 end
