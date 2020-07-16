@@ -41,4 +41,14 @@ RSpec.describe "Business inteligence endpoints", type: :request do
     expect(merchants['data'].length).to eq(1)
     expect(merchants['data'].first['attributes']['name']).to eq(@merchant1.name)
   end
+
+  it 'returns multiple merchants with the highest revenue' do
+    get '/api/v1/merchants/most_revenue?quantity=3'
+    expect(response).to have_http_status(:success)
+    merchants = JSON.parse(response.body)
+
+    expect(merchants['data'].length).to eq(3)
+    expect(merchants['data'].first['attributes']['name']).to eq(@merchant1.name)
+    expect(merchants['data'].last['attributes']['name']).to eq(@merchant3.name)
+  end
 end
