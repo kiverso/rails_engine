@@ -68,4 +68,18 @@ RSpec.describe "Business inteligence endpoints", type: :request do
     revenue = JSON.parse(response.body)
     expect(revenue['data']['attributes']['revenue']).to eq(21.92)
   end
+
+  it 'can get revenue for a given merchant' do
+    get "/api/v1/merchants/#{@merchant2.id}/revenue"
+    expect(response).to have_http_status(:success)
+    revenue = JSON.parse(response.body)
+    expect(revenue['data']['attributes']['revenue']).to eq(13.93)
+  end
+
+  it 'can return 0 for a given merchant with no revenue' do
+    get "/api/v1/merchants/#{@merchant4.id}/revenue"
+    expect(response).to have_http_status(:success)
+    revenue = JSON.parse(response.body)
+    expect(revenue['data']['attributes']['revenue']).to eq(0)
+  end
 end

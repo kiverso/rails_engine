@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       end
 
       get '/revenue', to: 'revenue#index'
+      get '/merchants/:id/revenue', to: 'revenue#show'
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
