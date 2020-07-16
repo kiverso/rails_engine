@@ -28,4 +28,10 @@ class Merchant < ApplicationRecord
     .select("merchants.*, SUM(invoice_items.quantity) AS items_sold")
     .order('items_sold DESC')
   end
+
+  def revenue
+    invoices.joins(:invoice_items, :transactions)
+    .where(transactions: {result: "success"})
+    .sum('invoice_items.quantity*invoice_items.unit_price')
+  end
 end

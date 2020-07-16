@@ -10,7 +10,7 @@ RSpec.describe Merchant, type: :model do
     it { should validate_presence_of :name }
   end
 
-  describe 'class methods' do
+  describe 'methods' do
     before(:each) do
       @customer = Customer.create({first_name: "Jeff", last_name: 'Lastname'})
       @merchant1 = create(:merchant)
@@ -55,6 +55,11 @@ RSpec.describe Merchant, type: :model do
     it 'can get merchants with most items sold sorted by items sold' do
       expect(Merchant.most_items_sold(1)).to eq([@merchant2])
       expect(Merchant.most_items_sold(3)).to eq([@merchant2, @merchant1, @merchant3])
+    end
+
+    it 'can get revenue for a merchant' do
+      expect(@merchant1.revenue).to eq(19.98)
+      expect(@merchant4.revenue).to eq(0)
     end
   end
 end
