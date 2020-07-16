@@ -5,6 +5,7 @@ RSpec.describe Invoice, type: :model do
     it {should belong_to(:customer)}
     it {should belong_to(:merchant)}
     it {should have_many(:invoice_items).dependent(:destroy)}
+    it {should have_many(:transactions).dependent(:destroy)}
     it {should have_many(:items).through(:invoice_items)}
   end
 end
