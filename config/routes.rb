@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       namespace :merchants do
         get '/find_all', to: 'search#index'
         get '/find', to: 'search#show'
+        get '/most_revenue', to: 'highest_revenue#index'
+        get '/most_items', to: 'most_items#index'
       end
     end
   end
@@ -26,6 +28,9 @@ Rails.application.routes.draw do
       resources :merchants, only: [:index, :show, :create, :destroy, :update] do
         resources :items, only: [:index]
       end
+
+      get '/revenue', to: 'revenue#index'
+      get '/merchants/:id/revenue', to: 'revenue#show'
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
