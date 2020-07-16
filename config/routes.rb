@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       namespace :merchants do
         get '/find_all', to: 'search#index'
         get '/find', to: 'search#show'
+        get '/most_revenue', to: 'highest_revenue#index'
       end
     end
   end
