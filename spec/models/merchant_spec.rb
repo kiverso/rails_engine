@@ -38,12 +38,17 @@ RSpec.describe Merchant, type: :model do
       @transaction5 = Transaction.create({invoice_id: @invoice5.id, result: 'success'})
     end
 
-    it 'can_get_highest_revenue merchants' do
+    it 'can can get merchants with successful transactions sorted by merchant_id' do
+      expect(Merchant.aggregate_data(1)).to eq([@merchant1])
+      expect(Merchant.aggregate_data(3)).to eq([@merchant1, @merchant2, @merchant3])
+    end
+
+    it 'can_get_highest_revenue merchants sorted by revenue' do
       expect(Merchant.highest_revenue(1)).to eq([@merchant1])
       expect(Merchant.highest_revenue(3)).to eq([@merchant1, @merchant2, @merchant3])
     end
-    
-    it 'can get merchants with most items sold' do
+
+    it 'can get merchants with most items sold sorted by items sold' do
       expect(Merchant.most_items_sold(1)).to eq([@merchant2])
       expect(Merchant.most_items_sold(3)).to eq([@merchant2, @merchant1, @merchant3])
     end
