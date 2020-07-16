@@ -9,7 +9,7 @@ class Invoice < ApplicationRecord
   def self.revenue_between(start_date, end_date)
     joins(:invoice_items, :transactions)
     .where(transactions: {result: "success"},
-    created_at: start_date..end_date)
+    created_at: start_date..Date.parse(end_date).end_of_day)
     .sum('invoice_items.quantity*invoice_items.unit_price')
   end
 end
