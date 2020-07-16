@@ -9,11 +9,20 @@ class Merchant < ApplicationRecord
   scope :search_by_updated_at, ->( updated_at) {where("TO_CHAR(updated_at,'yyyy-mon-dd-HH-MI-SS') 
                                                       ILIKE ?", "%#{updated_at}%")}
   def self.highest_revenue(quantity)
-    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-    .joins(invoices: [:invoice_items, :transactions]).group(:id)
+    joins(invoices: [:invoice_items, :transactions]).group(:id)
     .where(transactions: {result: "success"})
     .group(:id)
     .order('revenue DESC')
     .limit(quantity)
+    .select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+  end
+
+  def self.most_items_sold(quantity)
+    joins(invoices: [:invoice_items, :transactions]).group(:id)
+    .where(transactions: {result: "success"})
+    .group(:id)
+    .order('items_sold DESC')
+    .limit(quantity)
+    .select("merchants.*, SUM(invoice_items.quantity) AS items_sold")
   end
 end
