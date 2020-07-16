@@ -6,6 +6,10 @@ RSpec.describe Merchant, type: :model do
     it {should have_many(:invoices).dependent(:destroy)}
   end
 
+  describe 'validations' do
+    it { should validate_presence_of :name }
+  end
+
   describe 'class methods' do
     before(:each) do
       @customer = Customer.create({first_name: "Jeff", last_name: 'Lastname'})
