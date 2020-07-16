@@ -17,7 +17,7 @@ RSpec.describe "Business inteligence endpoints", type: :request do
     @invoice2 = Invoice.create({customer_id: @customer.id, merchant_id: @merchant2.id, created_at: '2012-03-25 09:54:09 UTC'})
     @invoice3 = Invoice.create({customer_id: @customer.id, merchant_id: @merchant3.id, created_at: '2012-03-25 09:54:09 UTC'})
     @invoice4 = Invoice.create({customer_id: @customer.id, merchant_id: @merchant4.id, created_at: '2012-03-25 09:54:09 UTC'})
-    @invoice5 = Invoice.create({customer_id: @customer.id, merchant_id: @merchant1.id, created_at: '2012-03-26 09:54:09 UTC'})
+    @invoice5 = Invoice.create({customer_id: @customer.id, merchant_id: @merchant1.id, created_at: '2012-03-27 09:54:09 UTC'})
 
     @invoice_item1 = InvoiceItem.create({item_id: @item1.id, invoice_id: @invoice1.id, quantity: 1, unit_price: @item1.unit_price})
     @invoice_item2 = InvoiceItem.create({item_id: @item2.id, invoice_id: @invoice2.id, quantity: 7, unit_price: @item2.unit_price})
@@ -60,5 +60,12 @@ RSpec.describe "Business inteligence endpoints", type: :request do
     expect(merchants['data'].length).to eq(3)
     expect(merchants['data'].first['attributes']['name']).to eq(@merchant2.name)
     expect(merchants['data'].last['attributes']['name']).to eq(@merchant3.name)
+  end
+
+  it 'can get revenue across a date range' do
+    get '/api/v1/revenue?start=2012-03-24&end=2012-03-26'
+    expect(response).to have_http_status(:success)
+    revenue = JSON.parse(response.body)
+    expect(revenue['data']['attributes']['revenue']).to eq(21.92)
   end
 end
