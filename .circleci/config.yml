@@ -1,0 +1,71 @@
+version: 2.1
+
+executors:
+  default:
+    working_directory: ~/rails_engine
+    docker:
+      - image: circleci/ruby:2.5.3
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_PATH: vendor/bundle
+          BUNDLE_RETRY: 3
+          BUNDLER_VERSION: 2.0.1
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          PG_HOST: 127.0.0.1
+          PGUSER: rails_engine
+      - image: circleci/postgres:12.3
+        environment:
+          POSTGRES_DB: rails_engine_test
+          POSTGRES_USER: rails_engine
+
+commands:
+  configure_bundler:
+    description: Configure bundler
+    steps:
+      - run:
+          name: Configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+jobs:
+  build:
+    executor: default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - rails_engine-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - rails_engine-
+      - configure_bundler
+      - run:
+          name: Install bundle
+          command: bundle install
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+      - run:
+          name: Setup DB
+          command: bundle exec rails db:create db:schema:load --trace
+      - run:
+          name: RSpec
+          command: |
+            bundle exec rspec
+      - store_artifacts:
+          path: coverage
+      - save_cache:
+          key: rails_engine-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ./rails_engine
+
+workflows:
+  version: 2
+  integration:
+    jobs:
+      - build
