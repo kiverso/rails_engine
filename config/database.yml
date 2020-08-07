@@ -1,5 +1,5 @@
 default: &default
-  adapter: mysql2
+  adapter: postgresql
   encoding: utf8
   pool: <%= ENV['DB_POOL'] %>
   username: <%= ENV['DB_USERNAME'] %>
