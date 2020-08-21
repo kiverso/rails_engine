@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Api::V1::ItemsController < ApplicationController
   def index
-    if (params[:merchant_id])
+    if params[:merchant_id]
       merchant = Merchant.find(params[:merchant_id])
       @items = merchant.items
     else
@@ -15,9 +17,7 @@ class Api::V1::ItemsController < ApplicationController
 
   def create
     new_item = Item.create(item_params)
-    if new_item.save
-      render json: ItemSerializer.new(new_item)
-    end
+    render json: ItemSerializer.new(new_item) if new_item.save
   end
 
   def destroy
@@ -34,6 +34,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   private
+
   def item_params
     params.permit(:name, :description, :unit_price, :merchant_id)
   end

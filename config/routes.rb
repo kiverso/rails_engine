@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :items do
@@ -20,12 +21,11 @@ Rails.application.routes.draw do
   end
   namespace :api do
     namespace :v1 do
-
-      resources :items, only: [:index, :show, :create, :destroy, :update] do
+      resources :items, only: %i[index show create destroy update] do
         resource :merchant, only: [:show], controller: 'merchants'
       end
 
-      resources :merchants, only: [:index, :show, :create, :destroy, :update] do
+      resources :merchants, only: %i[index show create destroy update] do
         resources :items, only: [:index]
       end
 
