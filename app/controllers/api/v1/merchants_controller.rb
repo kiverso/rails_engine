@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::MerchantsController < ApplicationController
   def index
     render json: MerchantSerializer.new(Merchant.all)
@@ -32,6 +34,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   private
+
   def merchant_params
     params.permit(:name)
   end

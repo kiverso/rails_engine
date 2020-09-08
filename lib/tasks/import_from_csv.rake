@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'resets the database, then resets the primary key sequence of each table'
 task :import_from_csv do
   Rake::Task['db:reset'].invoke

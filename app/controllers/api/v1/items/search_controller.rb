@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::Items::SearchController < ApplicationController
   def index
     @items = Item.where(nil)

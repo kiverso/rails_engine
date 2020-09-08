@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::RevenueController < ApplicationController
   def index
     revenue = Invoice.revenue_between(params[:start], params[:end])

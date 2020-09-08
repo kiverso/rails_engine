@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Revenue
   attr_reader :id, :revenue
   def initialize(revenue)
